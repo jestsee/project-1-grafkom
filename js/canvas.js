@@ -1,7 +1,7 @@
 /*** SETUP CANVAS  ***/
 var canvas = document.createElement("canvas");
-canvas.width = window.innerWidth;
-canvas.height = 0.8 * window.innerHeight;
+canvas.width = 800;
+canvas.height = 800;
 document.body.appendChild(canvas);
 
 var gl = canvas.getContext("webgl");
