@@ -15,6 +15,7 @@ function startPosition(e) {
     let x = e.clientX
     let y = e.clientY
     aroundVertice = curState.getNearestVertice(x,y)
+    console.log(poly2.isPointInside(x, y), x, y);
     
     if (aroundVertice[0] !== -1 && aroundVertice[1] !== -1) {
         lastX = x;
@@ -22,13 +23,11 @@ function startPosition(e) {
         dragging = true;
         currentObj = curState.getCurrentObj();
         index = currentObj.findVerticeIndex(aroundVertice[0], aroundVertice[1]);
-        console.log('[start position] : index keganti ->', index);
     }
 }
 
 function finishedPosition() {
     dragging = false;
-    console.log('[finished position]');
 
     // reset all variables value
     aroundVertice = [-1,-1];
@@ -43,7 +42,6 @@ function moveVertex(e) {
         // update object position
         currentObj.replaceVertice(lastX, lastY, index);
         curState.drawAllObjects();
-        console.log('[index]', index);
     }
 
     // update mouse position
