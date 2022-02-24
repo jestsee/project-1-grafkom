@@ -24,6 +24,17 @@ class CurrentState {
     getCurrentObj() {
         return this.currentObj;
     }
+
+    getSelectedObj(x, y) {
+        var obj;
+        for (let i=0; i < objects.length; i++) {
+            if (this.objects[i].isPointInside(x, y)) {
+                obj = this.objects[i]
+                break;
+            }
+        }
+        return obj
+    }
 }
 
 poly = new Polygon(5,100, 200, 200, '#1E2D24')

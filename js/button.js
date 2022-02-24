@@ -1,0 +1,3 @@
+function clickChange() {
+    clickChangePressed = true;
+}

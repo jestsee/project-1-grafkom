@@ -75,8 +75,6 @@ class Polygon {
             return parseInt(x); 
           });
           
-        console.log(vs)
-        console.log(this.vertices)
         var inside = false;
         for (let i=0; i < vs.length; i+=2) {
             let j = i-2;
@@ -84,8 +82,8 @@ class Polygon {
             var xi = vs[i], yi = vs[i+1];
             var xj = vs[j], yj = vs[j+1];
 
-            console.log(`x${i} : ${xi}, y${i} : ${yi}`);
-            console.log(`x${j} : ${xj}, y${j} : ${yj}`);
+            // console.log(`x${i} : ${xi}, y${i} : ${yi}`);
+            // console.log(`x${j} : ${xj}, y${j} : ${yj}`);
 
             var intersect = ((yi > y) != (yj > y))
                 && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
@@ -98,95 +96,3 @@ class Polygon {
     // TODO cek ada di dalem poligon atau ngga
     // TODO cek ada disekitar vertices atau nggga (** ini lebih diprioritasin)
 }
-
-function drawTriangle() {
-    let vertices = [
-        -0.75, -0.65,
-        0.75, -0.65,
-        0, 0.65,
-        0.5, 0,
-    ];
-
-    let vertices2 = [
-        1, 0.3, // kanan tengah
-        0.3, -0.8, // kanan bawah
-        -0.8, -0.8, // kiri bawah
-        -0.8, 0.3, // kiri tengah
-        0.3, 1, // atas tengah
-    ];
-
-    let vertices3 = [ // mathopenref coordpolycalc
-        400,300,
-        313,450,
-        487,450
-    ];
-
-    let vertices5 = [ // johnthesquirrel
-        400,500, // tengah bawah
-        313,350, // atas kiri
-        487,350, // atas kanan
-    ];
-
-    let vertices6 = [ // johnthesquirrel
-        345,316, // tengah bawah
-        500,394, // atas kiri
-        355,489, // atas kanan
-    ];
-
-    let vertices4 = [ //
-        400,300, // kanan atas
-        400,200, // kanan bawah
-        200,300, // kiri atas
-        200,200, // kiri bawah
-    ];
-
-    let vertices7 = generateVertices(5,100)
-
-    indices = generateIndices(vertices7)
-
-    drawShape(vertices7);
-    drawShape(vertices4);
-}
-
-function generateVertices(nSides, radius) {
-    // setup center
-    const CENTER_X = gl.canvas.width/2
-    const CENTER_Y = gl.canvas.width/2
-
-    rotAngle = 0
-    
-    let output = []
-    for (let i = 1; i <= nSides; i++) {  
-        y = (-(radius * Math.cos(rotAngle + 2 * i * Math.PI / nSides)) + CENTER_X).toFixed(0)
-        x = (-(radius * Math.sin(rotAngle + 2 * i * Math.PI / nSides)) + CENTER_Y).toFixed(0)
-        output.push(x,y)
-    }
-    console.log(output);
-    return output
-}
-
-function generateIndices(vertices) {
-    indices = []
-    len = vertices.length/2-1
-    increment = Math.ceil(vertices.length/4)
-
-    for(let i=0; i<=len ;i++) {
-        let a = i
-        let b = i+1
-        let c = i+increment
-        
-        if ((b)>len) { b = (i)%len }
-        if ((c)>len) { c = (c-1)%len }
-        
-        indices.push(a,b,c)
-    }
-    return indices;
-}
-
-function drawPolygon(nSides, radius) {
-    vertices = generateVertices(nSides, radius)
-    drawShape(vertices)
-}
-
-// drawTriangle()
-// drawPolygon(5,100)
