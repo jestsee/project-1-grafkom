@@ -7,7 +7,7 @@ class Polygon {
     }
 
     drawPolygon() {
-        console.log('mula',this.vertices);
+        // console.log('mula',this.vertices);
         drawShape(this.vertices)
     }
 
@@ -50,15 +50,20 @@ class Polygon {
         return output
     }
 
-    replaceVertice(x, y, myX, myY) {
+    findVerticeIndex(myX, myY) {
+        let index = -1;
         for (let i=0; i<this.vertices.length; i+=2) {
             if (this.vertices[i] == myX && this.vertices[i+1] == myY) {
-                this.vertices[i] = x;
-                this.vertices[i+1] = y;
-                break
+                index = i;
+                // index y nya itu i+1
             }
         }
-        console.log('replace terpanggil');
+        return index;
+    }
+
+    replaceVertice(x, y, index) {
+        this.vertices[index] = x;
+        this.vertices[index+1] = y;
         this.drawPolygon()
     }
 
