@@ -17,7 +17,7 @@
 
 // gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 2)
 
-function drawShape(vertices, indices, angle=0, scale=[1,1], translation=[0,0]) {
+function drawShape(vertices, angle=0, scale=[1,1], translation=[0,0]) {
 
   var buffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
@@ -26,9 +26,9 @@ function drawShape(vertices, indices, angle=0, scale=[1,1], translation=[0,0]) {
   program.color = gl.getUniformLocation(program, 'color')
   gl.uniform4fv(program.color, [0, 1, 0, 1.0])
 
-  var index = gl.createBuffer();
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
+  // var index = gl.createBuffer();
+  // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index);
+  // gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indices), gl.STATIC_DRAW);
 
   // resolution
   var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
@@ -52,8 +52,8 @@ function drawShape(vertices, indices, angle=0, scale=[1,1], translation=[0,0]) {
   gl.enableVertexAttribArray(program.position)
   gl.vertexAttribPointer(program.position, 2, gl.FLOAT, false, 0, 0)
 
-  // gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 2)
-  gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, vertices.length / 2) // ga perlu indices lagi
+  // gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 }
 
 function angleInRadians(angle) {
