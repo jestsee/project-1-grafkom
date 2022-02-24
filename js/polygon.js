@@ -1,14 +1,20 @@
 /*========== POLYGON =========*/
 class Polygon {
-    constructor(nSides, radius) {
+    constructor(nSides, radius, centerX, centerY) {
         this.nSides = nSides
         this.radius = radius
-        this.vertices = this.generateVertices(nSides, radius)
+        this.centerX = centerX
+        this.centerY = centerY
+        this.vertices = this.generateVertices()
     }
 
-    drawPolygon() {
-        // console.log('mula',this.vertices);
+    drawObject() {
         drawShape(this.vertices)
+    }
+
+    // kalo sempet aja nanti tambahin penanda di tiap ujung sudut
+    addHelper() {
+
     }
 
     // return related coor if true
@@ -33,17 +39,12 @@ class Polygon {
         return Math.pow(x-myX,2) + Math.pow(y-myY,2) <= RAD * RAD
     }
 
-    generateVertices(nSides, radius) {
-        // setup center
-        const CENTER_X = gl.canvas.width/2
-        const CENTER_Y = gl.canvas.width/2
-    
+    generateVertices() {
         let rotAngle = 0
-        
         let output = []
-        for (let i = 1; i <= nSides; i++) {  
-            let y = (-(radius * Math.cos(rotAngle + 2 * i * Math.PI / nSides)) + CENTER_X).toFixed(0)
-            let x = (-(radius * Math.sin(rotAngle + 2 * i * Math.PI / nSides)) + CENTER_Y).toFixed(0)
+        for (let i = 1; i <= this.nSides; i++) {  
+            let y = (-(this.radius * Math.cos(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerX).toFixed(0)
+            let x = (-(this.radius * Math.sin(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerY).toFixed(0)
             output.push(x,y)
         }
         // console.log(output);
@@ -55,7 +56,7 @@ class Polygon {
         for (let i=0; i<this.vertices.length; i+=2) {
             if (this.vertices[i] == myX && this.vertices[i+1] == myY) {
                 index = i;
-                // index y nya itu i+1
+                // y index = i + 1
             }
         }
         return index;
@@ -64,7 +65,6 @@ class Polygon {
     replaceVertice(x, y, index) {
         this.vertices[index] = x;
         this.vertices[index+1] = y;
-        this.drawPolygon()
     }
 
     // PAS mousedown --> if coor inside then .. else cek ada di dalem poligon atau ga buat ganti warna
@@ -117,8 +117,8 @@ function drawTriangle() {
 
     indices = generateIndices(vertices7)
 
-    drawShape(vertices7, indices);
-    drawShape(vertices4, [3,1,2,0,1,2],0,[1,1],[100,300]);
+    drawShape(vertices7);
+    drawShape(vertices4);
 }
 
 function generateVertices(nSides, radius) {
@@ -163,5 +163,3 @@ function drawPolygon(nSides, radius) {
 
 // drawTriangle()
 // drawPolygon(5,100)
-poly = new Polygon(5,100)
-poly.drawPolygon()
