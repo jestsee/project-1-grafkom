@@ -1,11 +1,11 @@
 /*========== POLYGON =========*/
 class Polygon {
-    constructor(nSides, radius, centerY, centerX, colorHex) {
+    constructor(nSides, radius, centerY, centerX) {
         this.nSides = nSides
         this.radius = radius
         this.centerX = centerX
         this.centerY = centerY
-        this.colorHex = colorHex
+        this.colorHex = '#b8d9a4'
         this.vertices = this.generateVertices()
     }
 

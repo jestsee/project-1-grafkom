@@ -9,5 +9,6 @@ if (!gl) {
     alert("Unable to setup WebGL. Your browser or computer may not support it");
 }
 
+canvas.style.background = "#faf3e1"; // nanti taroh di css
 gl.clearColor(0, 0, 0, 0);
 gl.clear(gl.COLOR_BUFFER_BIT);

@@ -9,7 +9,9 @@ var lastX = -1;
 var lastY = -1;
 var index = -1;
 var currentObj;
+
 var clickChangePressed = false;
+var createPolygonPressed = false;
 
 function mouseDown(e) {
     // get x and y value
@@ -17,28 +19,37 @@ function mouseDown(e) {
     let y = e.clientY
 
     if (clickChangePressed) {
-        currentObj = curState.getSelectedObj(x, y);
+        currentObj = state.getSelectedObj(x, y);
         currentObj.changeColor(document.getElementById('color').value);
-        curState.drawAllObjects();
+        state.drawAllObjects();
         clickChangePressed = false;
 
         console.log('clicked');
         console.log(currentObj);
+    } 
+
+    else if (createPolygonPressed) {
+        let nSides = document.getElementById("polygonSides").value;
+        let radius = document.getElementById("polygonRadius").value;
+        state.addObject(new Polygon(nSides, radius, x, y));
+        state.drawAllObjects();
+        createPolygonPressed = false;
     }
 
-    aroundVertice = curState.getNearestVertice(x,y)
-    // console.log(poly2.isPointInside(x, y), x, y);
+    else {
+        aroundVertice = state.getNearestVertice(x,y)
+        if (aroundVertice[0] !== -1 && aroundVertice[1] !== -1) {
+            lastX = x;
+            lastY = y;
+            dragging = true;
+            currentObj = state.getCurrentObj();
+            index = currentObj.findVerticeIndex(aroundVertice[0], aroundVertice[1]);
     
-    if (aroundVertice[0] !== -1 && aroundVertice[1] !== -1 && !clickChangePressed) {
-        lastX = x;
-        lastY = y;
-        dragging = true;
-        currentObj = curState.getCurrentObj();
-        index = currentObj.findVerticeIndex(aroundVertice[0], aroundVertice[1]);
-
-        console.log('only drag');
+            console.log('only drag');
+        }
     }
-}
+    }
+    
 
 function mouseUp() {
     dragging = false;
@@ -55,7 +66,7 @@ function mouseMove(e) {
     if (dragging) {
         // update object position
         currentObj.replaceVertice(lastX, lastY, index);
-        curState.drawAllObjects();
+        state.drawAllObjects();
     }
 
     // update mouse position
