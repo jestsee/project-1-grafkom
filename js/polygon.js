@@ -1,15 +1,16 @@
 /*========== POLYGON =========*/
 class Polygon {
-    constructor(nSides, radius, centerX, centerY) {
+    constructor(nSides, radius, centerX, centerY, colorHex) {
         this.nSides = nSides
         this.radius = radius
         this.centerX = centerX
         this.centerY = centerY
+        this.colorHex = colorHex
         this.vertices = this.generateVertices()
     }
 
     drawObject() {
-        drawShape(this.vertices)
+        drawShape(this.vertices, this.colorHex)
     }
 
     // kalo sempet aja nanti tambahin penanda di tiap ujung sudut

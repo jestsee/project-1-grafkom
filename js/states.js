@@ -26,9 +26,9 @@ class CurrentState {
     }
 }
 
-poly = new Polygon(5,100, 200, 200)
-poly2 = new Polygon(3,100, 400, 400)
-poly3 = new Polygon(7,80, 600, 600)
+poly = new Polygon(5,100, 200, 200, '#1E2D24')
+poly2 = new Polygon(3,100, 400, 400, '#F9B4ED')
+poly3 = new Polygon(7,80, 600, 600, '#C52184')
 objects = [poly, poly2, poly3]
 curState = new CurrentState(objects)
 

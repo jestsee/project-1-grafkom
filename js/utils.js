@@ -17,14 +17,15 @@
 
 // gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 2)
 
-function drawShape(vertices, angle=0, scale=[1,1], translation=[0,0]) {
+function drawShape(vertices, colorHex, angle=0, scale=[1,1], translation=[0,0]) {
 
   var buffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW)
 
+  // color
   program.color = gl.getUniformLocation(program, 'color')
-  gl.uniform4fv(program.color, [0, 1, 0, 1.0])
+  gl.uniform4fv(program.color, hexToGLSL(colorHex))
 
   // var index = gl.createBuffer();
   // gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, index);
@@ -62,4 +63,20 @@ function angleInRadians(angle) {
   rotation[0] = Math.sin(angleInRadians);
   rotation[1] = Math.cos(angleInRadians);
   return rotation
+}
+
+function hexToGLSL(hex){
+  var c;
+  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+      c= hex.substring(1).split('');
+      if(c.length== 3){
+          c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c= '0x'+c.join('');
+      var r = (((c>>16)&255)/255);
+      var g = ((c>>8)&255)/255;
+      var b = (c&255)/255;
+      return [r, g, b, 1];
+  }
+  throw new Error('Bad Hex');
 }
