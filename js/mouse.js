@@ -12,6 +12,7 @@ var currentObj;
 
 var clickChangePressed = false;
 var createPolygonPressed = false;
+var createLinePressed = false
 
 function mouseDown(e) {
     // get x and y value
@@ -34,6 +35,13 @@ function mouseDown(e) {
         state.addObject(new Polygon(nSides, radius, x, y));
         state.drawAllObjects();
         createPolygonPressed = false;
+    }
+
+    else if (createLinePressed) {
+        let nSides = 2;
+        state.addObject(new Line(nSides, x, y));
+        state.drawAllObjects();
+        createLinePressed = false;
     }
 
     else {
