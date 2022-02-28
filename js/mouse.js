@@ -23,8 +23,8 @@ var createLinePressed = false;
 
 function mouseDown(e) {
     // get x and y value
-    let x = e.clientX
-    let y = e.clientY
+    var x = e.pageX - this.offsetLeft; 
+    var y = e.pageY - this.offsetTop;
 
     if (clickChangePressed) {
         currentObj = state.getSelectedObj(x, y);
@@ -93,8 +93,8 @@ function mouseUp() {
 }
 
 function mouseMove(e) {
-    let x = e.clientX;
-    let y = e.clientY;
+    var x = e.pageX - this.offsetLeft; 
+    var y = e.pageY - this.offsetTop;
     if (dragging) {
         // update object position
         currentObj.replaceVertice(lastX, lastY, index);
