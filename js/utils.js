@@ -53,7 +53,7 @@ function drawShape(vertices, colorHex, angle=0, scale=[1,1], translation=[0,0]) 
   gl.enableVertexAttribArray(program.position)
   gl.vertexAttribPointer(program.position, 2, gl.FLOAT, false, 0, 0)
 
-  gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 2) // ga perlu indices lagi
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, vertices.length / 2) // ga perlu indices lagi
   // gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT,0);
 }
 
