@@ -1,12 +1,11 @@
 /*========== POLYGON =========*/
-class Polygon {
-    constructor(nSides=null, radius=null, centerY=null, centerX=null, vertices=null, colorHex=null) {
-        this.type = "POLYGON"
-        this.nSides = nSides
+class Rectangle {
+    constructor(radius=null, centerY=null, centerX=null, symmetric=null, vertices=null, colorHex=null) {
+        this.type = "RECTANGLE"
+        this.symmetric = symmetric
         this.radius = radius
         this.centerX = centerX
         this.centerY = centerY
-
         this.colorHex = colorHex
         if (this.colorHex == null) {
             this.colorHex = '#b8d9a4'
@@ -22,9 +21,18 @@ class Polygon {
         drawShape(this.vertices, this.colorHex)
     }
 
-    // kalo sempet aja nanti tambahin penanda di tiap ujung sudut
-    addHelper() {
+    scaleX(scale) {
+        this.vertices[0] = this.vertices[0] - scale
+        this.vertices[2] = this.vertices[2] + scale
+        this.vertices[4] = this.vertices[4] + scale
+        this.vertices[6] = this.vertices[6] - scale
+    }
 
+    scaleY(scale) {
+        this.vertices[1] = this.vertices[1] + scale
+        this.vertices[3] = this.vertices[3] + scale
+        this.vertices[5] = this.vertices[5] - scale
+        this.vertices[7] = this.vertices[7] - scale
     }
 
     // return related coor if true
@@ -49,14 +57,25 @@ class Polygon {
     }
 
     generateVertices() {
-        let rotAngle = 0
-        let output = []
-        for (let i = 1; i <= this.nSides; i++) {  
-            let y = (-(this.radius * Math.cos(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerX).toFixed(0)
-            let x = (-(this.radius * Math.sin(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerY).toFixed(0)
-            output.push(x,y)
+        console.log(this.vertices);
+        let vertices = []
+        if (this.symmetric) {
+            vertices = [
+                this.centerX - this.radius/1, this.centerY + this.radius/1, // kiri bawah
+                this.centerX + this.radius/1, this.centerY + this.radius/1, // kanan bawah
+                this.centerX + this.radius/1, this.centerY - this.radius/1, // kanan atas
+                this.centerX - this.radius/1, this.centerY - this.radius/1, // kiri atas
+            ]
+        } else {
+            vertices = [
+                this.centerX - this.radius/1, this.centerY + this.radius/2,
+                this.centerX + this.radius/1, this.centerY + this.radius/2,
+                this.centerX + this.radius/1, this.centerY - this.radius/2,
+                this.centerX - this.radius/1, this.centerY - this.radius/2,
+            ]
         }
-        return output
+        console.log("VERTICES", vertices);
+        return vertices
     }
 
     findVerticeIndex(myX, myY) {

@@ -40,4 +40,27 @@ class CurrentState {
         }
         return obj
     }
+
+    saveState() {
+        var toSave = [];
+        for (let i=0; i < this.objects.length; i++) {
+            let object = {
+                "type" : this.objects[i].type,
+                "vertices" : this.objects[i].vertices,
+                "colorHex" : this.objects[i].colorHex
+            }
+            toSave.push(object)
+        }
+        console.log(JSON.stringify(toSave));
+        this.download(JSON.stringify(toSave), 'data.json', 'text/plain');
+    }
+
+    download(content, fileName, contentType) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+
+    }
 }
