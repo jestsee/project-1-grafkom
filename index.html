@@ -12,14 +12,22 @@
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/shaders.js"></script>
     <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/line.js"></script>
     <script type="text/javascript" src="js/polygon.js"></script>
+    <script type="text/javascript" src="js/rectangle.js"></script>
     <script type="text/javascript" src="js/states.js"></script>
     <script type="text/javascript" src="js/mouse.js"></script>
     <script type="text/javascript" src="js/button.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
     <div class="tools">
-        <button class="button" onclick="clickChange()">Change Color</button>
-        <input type="color" id="color" name="color" value="#b8d9a4">
+
+        <!-- line -->
+        <button class="button" onclick="createLine()">Line</button>
+
+        <!-- rectangle -->
+        <button class="button" onclick="createRectangle()">Rectangle</button>
+        <label for="checkbox">Symmetric</label>
+        <input type="checkbox" id="symmetric" name="symmetric" value="symmetric">
 
         <!-- polygon -->
         <button class="button" onclick="createPolygon()">Polygon</button>
@@ -27,6 +35,23 @@
         <input type="number" id="polygonSides" name="input" min="3" max="100">
         <label for="polygon">Radius:</label>
         <input type="number" id="polygonRadius" name="input" min="50" max="800" step="50">
+
+        <!-- slider -->
+        <label for="rectangle">Scale X:</label>
+        <input type="range" id="sliderX" oninput="inputSliderX()">
+        <label for="rectangle">Scale Y:</label>
+        <input type="range" id="sliderY" oninput="inputSliderY()">
+
+
+        <!-- color -->
+        <button class="button" onclick="clickChange()">Change Color</button>
+        <input type="color" id="color" name="color" value="#b8d9a4">
+
+        <!-- save & load -->
+        <button class="button" onclick="save()">Save</button>
+        <button type="button" onclick="load()">Load</button>
+        <input type="file" id="myfile" name="myfile" accept="application/JSON">
+
     </div>
 </body>
 

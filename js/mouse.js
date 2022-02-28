@@ -10,8 +10,16 @@ var lastY = -1;
 var index = -1;
 var currentObj;
 
+var linePoint = 0;
+var x1 = -1;
+var y1 = -1;
+var x2 = -1;
+var y2 = -1;
+
 var clickChangePressed = false;
 var createPolygonPressed = false;
+var createRectanglePressed = false;
+var createLinePressed = false;
 
 function mouseDown(e) {
     // get x and y value
@@ -28,12 +36,32 @@ function mouseDown(e) {
         console.log(currentObj);
     } 
 
+    else if (createLinePressed) {
+        state.addObject(new Line(canvas.width/2, canvas.height/2, x, y));
+        state.drawAllObjects();
+        createLinePressed = false;
+    }
+
     else if (createPolygonPressed) {
         let nSides = document.getElementById("polygonSides").value;
         let radius = document.getElementById("polygonRadius").value;
         state.addObject(new Polygon(nSides, radius, x, y));
         state.drawAllObjects();
         createPolygonPressed = false;
+    }
+
+    else if (createRectanglePressed) {
+        let radius = document.getElementById("polygonRadius").value;
+        let symmetricChecked = document.getElementById('symmetric').checked
+
+        if(symmetricChecked) {
+            state.addObject(new Rectangle(radius, y, x, true))
+        } else {
+            state.addObject(new Rectangle(radius, y, x, false))
+        }
+        
+        state.drawAllObjects();
+        createRectanglePressed = false;
     }
 
     else {
@@ -46,9 +74,13 @@ function mouseDown(e) {
             index = currentObj.findVerticeIndex(aroundVertice[0], aroundVertice[1]);
     
             console.log('only drag');
+        } 
+
+        else {
+            currentObj = state.getSelectedObj(x, y);
         }
     }
-    }
+}
     
 
 function mouseUp() {
