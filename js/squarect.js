@@ -71,17 +71,26 @@ function sqr(e){
   sqrrectMode = true;
   action = "draw";
   mode = 2;
+  console.log(action);
 }
 
 function rect(e){
   sqrrectMode = true;
   action = "draw";
   mode = 3;
+  console.log(action);
 }
 
 function edit(e){
   sqrrectMode = true;
   action = "edit";
+  console.log(action);
+}
+
+function move(e){
+  sqrrectMode = true;
+  action = "move";
+  console.log(action);
 }
 
 //COLOR PICKER
@@ -191,155 +200,22 @@ function isOnObject2(objects,x,y){
     var minY = Math.min.apply(null, objectY);
     if(x >= minX && x <= maxX && y <= maxY && y >= minY){
       onObject.push(object);
-      console.log("kena")
     }
   })
   return onObject[onObject.length-1] || null;
 }
 
-
-function mousedown(e) {
-  if (action == "draw"){
-    mouseClicked = true;
-    var x = e.pageX - this.offsetLeft; 
-    var y = e.pageY - this.offsetTop;
-
-    if(mode == 0){ // pen
-      objects.push([mode,[],[]]);
-    }
-    else if(mode == 1){ // line
-      const colorTwice = colorRGB.concat(colorRGB);
-      objects.push([mode,[x,y,x,y],colorTwice]);
-    }
-    else if(mode == 2 || mode == 3){ // square
-      const colorTwice = colorRGB.concat(colorRGB);
-      const colorFour = colorTwice.concat(colorTwice);
-      objects.push([mode,[x,y, x,y, x,y, x,y],colorFour]);
-    }
-  }
-  else if(action == "edit"){
-    mouseClicked = true;
-    var x = e.pageX - this.offsetLeft; 
-    var y = e.pageY - this.offsetTop;
-    var onObject = isOnObject2(objects,x,y);
-    if (onObject){
-      selectedObject = onObject;
-    }
-  }
-}
-
-function mouseup(e){
-  if (action == "draw"){
-    mouseClicked = false;
-    console.log(idxNowShape);
-    idxNowShape++;
-    // id++;
-    console.log(objects);
-    console.log(idxNowShape);
-  }
-  else if(action == "edit"){
-    mouseClicked = false;
-    selectedObject = null;
-  }
-}
-
-function mousemove(e){
-  if (action == "draw"){
-    if(mouseClicked){
-      var x = e.pageX - this.offsetLeft; 
-      var y = e.pageY - this.offsetTop;
-      if(mode == 0){
-        objects[idxNowShape][1].push(x, y);
-        objects[idxNowShape][2].push(colorRGB[0], colorRGB[1], colorRGB[2]);
-      }
-      else if(mode == 1){ // line
-        for(var i = 0; i < 2; i++){
-          objects[idxNowShape][1].pop();
-        }
-        objects[idxNowShape][1].push(x, y);
-      }
-      else if(mode == 2){//square
-        for(var i = 0; i < 6; i++){
-          objects[idxNowShape][1].pop();
-        }
-        var orX = objects[idxNowShape][1][0];
-        var orY = objects[idxNowShape][1][1];
-        var kuadran = screenKuadran(orX, orY, x, y);
-        var sizer = Math.max(Math.abs(orX-x),Math.abs(orY-y));
-        if(kuadran == 1){
-          objects[idxNowShape][1].push(orX+sizer, orY, orX+sizer, orY-sizer, orX, orY-sizer);
-        }
-        else if(kuadran == 2){
-          objects[idxNowShape][1].push(orX-sizer, orY, orX-sizer, orY-sizer, orX, orY-sizer);
-        }
-        else if(kuadran == 3){
-          objects[idxNowShape][1].push(orX-sizer, orY, orX-sizer, orY+sizer, orX, orY+sizer);
-        }
-        else if(kuadran == 4){
-          objects[idxNowShape][1].push(orX+sizer, orY, orX+sizer, orY+sizer, orX, orY+sizer);
-        }
-      }
-      else if(mode == 3){
-        for(var i = 0; i < 6; i++){
-          objects[idxNowShape][1].pop();
-        }
-        var orX = objects[idxNowShape][1][0];
-        var orY = objects[idxNowShape][1][1];
-        var selisihX = x - orX;
-        var selisihY = y - orY;
-        objects[idxNowShape][1].push(orX+selisihX, orY, x, y, orX, orY+selisihY);
-      }
-      drawToScreen(objects);
-    }
-  }
-  else if (action == "edit"){
-    var x = e.pageX - this.offsetLeft; 
-    var y = e.pageY - this.offsetTop;
-
-    var onObject = isOnObject2(objects,x,y);
-
-    if (onObject && !selectedObject){
-      onObject[2] = colorRGB.concat(colorRGB).concat(colorRGB).concat(colorRGB);
-    }
-
-    if (selectedObject){
-      console.log("masuk2")
-      if(selectedObject[0] == 2){//square
-        for(var i = 0; i < 6; i++){
-          selectedObject[1].pop();
-        }
-        var orX = selectedObject[1][0];
-        var orY = selectedObject[1][1];
-        var kuadran = screenKuadran(orX, orY, x, y);
-        var sizer = Math.max(Math.abs(orX-x),Math.abs(orY-y));
-        if(kuadran == 1){
-          selectedObject[1].push(orX+sizer, orY, orX+sizer, orY-sizer, orX, orY-sizer);
-        }
-        else if(kuadran == 2){
-          selectedObject[1].push(orX-sizer, orY, orX-sizer, orY-sizer, orX, orY-sizer);
-        }
-        else if(kuadran == 3){
-          selectedObject[1].push(orX-sizer, orY, orX-sizer, orY+sizer, orX, orY+sizer);
-        }
-        else if(kuadran == 4){
-          selectedObject[1].push(orX+sizer, orY, orX+sizer, orY+sizer, orX, orY+sizer);
-        }
-      }
-      else if(selectedObject[0] == 3){
-        for(var i = 0; i < 6; i++){
-          selectedObject[1].pop();
-        }
-        var orX = selectedObject[1][0];
-        var orY = selectedObject[1][1];
-        var selisihX = x - orX;
-        var selisihY = y - orY;
-        selectedObject[1].push(orX+selisihX, orY, x, y, orX, orY+selisihY);
+function isOnVertice(objects,x,y){
+  var onVertice = [];
+  console.log("tes");
+  objects.forEach(function(object){
+    for(var i=0;i<object[1].length;i+=2){
+      if(Math.abs(x - object[1][i]) < 10 && Math.abs(y - object[1][i+1]) < 10){
+        onVertice.push([object,i])
       }
     }
-
-    drawToScreen(objects);
-  }
-  
+  })
+  return onVertice[onVertice.length-1] || null;
 }
 
 function drawToScreen(objects){

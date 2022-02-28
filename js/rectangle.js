@@ -1,4 +1,4 @@
-/*========== POLYGON =========*/
+/*========== Rectangle =========*/
 class Rectangle {
     constructor(radius=null, centerY=null, centerX=null, symmetric=null, vertices=null, colorHex=null) {
         this.type = "RECTANGLE"

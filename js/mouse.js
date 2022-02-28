@@ -18,6 +18,7 @@ var objects = [];
 var colorRGB = [0, 0, 0];
 var mouseClicked = false;
 var selectedObject = null;
+var selectedVertice = null;
 
 var linePoint = 0;
 var x1 = -1;
@@ -109,13 +110,23 @@ function mouseDown(e) {
               objects.push([mode,[x,y, x,y, x,y, x,y],colorFour]);
             }
           }
-          else if(action == "edit"){
+        else if(action == "edit"){
             mouseClicked = true;
             var x = e.pageX - this.offsetLeft; 
             var y = e.pageY - this.offsetTop;
             var onObject = isOnObject2(objects,x,y);
             if (onObject){
-              selectedObject = onObject;
+                selectedObject = onObject;
+            }
+        }
+        else if(action == "move"){
+            mouseClicked = true;
+            var x = e.pageX - this.offsetLeft; 
+            var y = e.pageY - this.offsetTop;
+            var onVertice = isOnVertice(objects,x,y);
+            if (onVertice){
+                selectedObject = onVertice[0];
+                selectedVertice = onVertice[1];
             }
         }
     }
@@ -135,10 +146,16 @@ function mouseUp() {
         if (action == "draw"){
             mouseClicked = false;
             idxNowShape++;
+            console.log(objects)
         }
         else if(action == "edit"){
             mouseClicked = false;
             selectedObject = null;
+        }
+        else if(action == "move"){
+            mouseClicked = false;
+            selectedObject = null;
+            selectedVertice = null;
         }
     }
 }
@@ -206,7 +223,7 @@ function mouseMove(e) {
               drawToScreen(objects);
             }
           }
-          else if (action == "edit"){
+        else if (action == "edit"){
             var x = e.pageX - this.offsetLeft; 
             var y = e.pageY - this.offsetTop;
         
@@ -217,7 +234,6 @@ function mouseMove(e) {
             }
         
             if (selectedObject){
-              console.log("masuk2")
               if(selectedObject[0] == 2){//square
                 for(var i = 0; i < 6; i++){
                   selectedObject[1].pop();
@@ -250,7 +266,15 @@ function mouseMove(e) {
                 selectedObject[1].push(orX+selisihX, orY, x, y, orX, orY+selisihY);
               }
             }
-        
+            drawToScreen(objects);
+        }
+        else if(action == "move"){
+            var x = e.pageX - this.offsetLeft; 
+            var y = e.pageY - this.offsetTop;
+            if (selectedObject){
+                selectedObject[1][selectedVertice] = x;
+                selectedObject[1][selectedVertice+1] = y;
+            }
             drawToScreen(objects);
         }
     }
