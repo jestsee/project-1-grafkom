@@ -1,6 +1,7 @@
 var vertexShader = gl.createShader(gl.VERTEX_SHADER)
 gl.shaderSource(vertexShader, [
   'attribute vec2 position;',
+  
   'uniform vec2 u_resolution;',
   'uniform vec2 u_translation;',
   'uniform vec2 u_scale;',

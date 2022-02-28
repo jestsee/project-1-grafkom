@@ -1,30 +1,17 @@
 /*========== POLYGON =========*/
-class Polygon {
-    constructor(nSides=null, radius=null, centerY=null, centerX=null, vertices=null, colorHex=null) {
-        this.type = "POLYGON"
-        this.nSides = nSides
-        this.radius = radius
-        this.centerX = centerX
-        this.centerY = centerY
-
-        this.colorHex = colorHex
-        if (this.colorHex == null) {
-            this.colorHex = '#b8d9a4'
-        }
-
-        this.vertices = vertices
-        if (this.vertices == null) {
-            this.vertices = this.generateVertices()
-        }
+class Line {
+    constructor(x1, y1, x2, y2) {
+        this.type = "LINE"
+        this.x1 = x1
+        this.y1 = y1
+        this.x2 = x2
+        this.y2 = y2
+        this.colorHex = '#000000'
+        this.vertices = this.generateVertices()
     }
 
     drawObject() {
-        drawShape(this.vertices, this.colorHex)
-    }
-
-    // kalo sempet aja nanti tambahin penanda di tiap ujung sudut
-    addHelper() {
-
+        drawLine(this.vertices, this.colorHex)
     }
 
     // return related coor if true
@@ -49,14 +36,11 @@ class Polygon {
     }
 
     generateVertices() {
-        let rotAngle = 0
-        let output = []
-        for (let i = 1; i <= this.nSides; i++) {  
-            let y = (-(this.radius * Math.cos(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerX).toFixed(0)
-            let x = (-(this.radius * Math.sin(rotAngle + 2 * i * Math.PI / this.nSides)) + this.centerY).toFixed(0)
-            output.push(x,y)
-        }
-        return output
+        let vertices = [
+            this.x1, this.y1, 
+            this.x2, this.y2]
+        console.log("VERTICES", vertices);
+        return vertices
     }
 
     findVerticeIndex(myX, myY) {
